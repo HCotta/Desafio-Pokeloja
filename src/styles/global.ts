@@ -74,7 +74,8 @@ export default createGlobalStyle`
     display: flex;
     max-width: ${(props) => props.theme.largura.maxWidth};
     padding: 0 1rem;
-  
+    align-items: flex-start;
+    
     @media (max-width: 1024px) {
       flex-direction: column-reverse;
     }  

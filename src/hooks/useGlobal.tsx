@@ -54,7 +54,8 @@ export function GlobalProvider({ children }: GlobalProviderProps): JSX.Element {
  
 
   const filtrarPokemon = (listaPokemon: Pokemon[]) => {
-    return !filtro
+
+    return !filtro || !filtro.length
       ? listaPokemon
       : listaPokemon.filter(pokemon =>
         pokemon.nome.includes(filtro.toUpperCase())
@@ -119,7 +120,7 @@ export function GlobalProvider({ children }: GlobalProviderProps): JSX.Element {
           quantidade: 1,
         };
 
-        setCarrinho([...carrinho, pokemonAdicionado]);
+        setCarrinho([pokemonAdicionado, ...carrinho]);
         return;
       }
 

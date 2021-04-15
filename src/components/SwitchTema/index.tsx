@@ -13,7 +13,8 @@ export function SwitchTema({ selecionarTema }: SwitchTemaProps) {
   const { limparCarrinho } = useGlobal();
 
   const selecionarNovoTema = (tema: string) => {
-    selecionarTema(tema)
+    selecionarTema(tema);
+    setExibirSwitchTema(false);
     limparCarrinho();
   }
 

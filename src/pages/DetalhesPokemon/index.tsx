@@ -1,12 +1,17 @@
 import { useParams } from 'react-router-dom'
 import { getPokemon } from 'services/api';
-import { CardAbout, Chip } from './styles'
+import { CardAbout, Chip, ContentImg, ContentInfo } from './styles'
 import { useEffect, useState } from 'react';
 import { PokemonAbout } from 'models/AdapterPokemon';
 import { Card } from './../../components/ListaPokemon/CardPokemon/styles';
+import { MdAddShoppingCart, MdKeyboardBackspace } from 'react-icons/md';
+import { useGlobal } from 'hooks/useGlobal';
+import { Link } from 'react-router-dom';
+import { Carrinho } from 'components/Carrinho';
 
 export function DetalhesPokemon() {
   const { id } = useParams<Record<string, string | undefined>>();
+  const { adicionarPokemon } = useGlobal();
   const [pokemonAbout, setPokemonAbout] = useState<PokemonAbout>({} as PokemonAbout);
 
   useEffect(() => {
@@ -19,34 +24,42 @@ export function DetalhesPokemon() {
     })();
   }, [id]);
 
+  const adicionarNoCrrinho = (pokemon: PokemonAbout) => {
+    adicionarPokemon({
+      id: pokemon.id,
+      nome: pokemon.nome,
+      valor: pokemon.nome.length * 10,
+      imagem: pokemon.imagem,
+      quantidade: 1
+    });
+  }
+
   return (
-      <main>
-        <Card>
-          <CardAbout>
-            <figure>
+    <main>
+      <Card>
+        <CardAbout>
+          <Link to="/">
+            <MdKeyboardBackspace size={32} color="#fff" />
+          </Link>
+          <section>
+            <ContentImg>
               <img
                 src={pokemonAbout.imagem}
                 alt={"imagem do pokemon" + pokemonAbout.nome} />
-            </figure>
-            <div>
-              <h1>
-                {pokemonAbout.nome} #{pokemonAbout.id}
-              </h1>
-              <div>
-                <strong>Altura:</strong>
-                {pokemonAbout.altura}
-              </div>
-              <div>
-                <strong>Peso:</strong>
-                {pokemonAbout.peso}
-              </div>
+
+            </ContentImg>
+            <ContentInfo>
+              <header>
+                <h1> {pokemonAbout.nome} #{pokemonAbout.id}</h1>
+              </header>
+
               <div>
                 <div>
                   <strong>Status</strong>:
-              </div>
+                </div>
                 {pokemonAbout.status?.map((status) => {
                   return (
-                    <Chip>
+                    <Chip key={status.nome}>
                       <span>
                         {status.nome}:{status.valor}
                       </span>
@@ -57,7 +70,7 @@ export function DetalhesPokemon() {
               <div>
                 <div>
                   <strong>Habilidades</strong>:
-              </div>
+                </div>
                 {pokemonAbout.habilidades?.map((habilidade) => {
                   return (
                     <Chip key={habilidade}>
@@ -69,39 +82,45 @@ export function DetalhesPokemon() {
                 })}
               </div>
               <div>
-                <div>
-                  <strong>Movimentos</strong>:
-              </div>
-                {pokemonAbout.movimentos?.map((movimento) => {
-                  return (
-                    <Chip key={movimento}>
-                      <span>
-                        {movimento}
-                      </span>
-                    </Chip>
-                  )
-                })}
+                <strong>Tipo</strong>:
+                <ul>
+                  {pokemonAbout.tipo?.map((tipo) => {
+                    return (
+                      <Chip key={tipo}>
+                        <span>
+                          {tipo}
+                        </span>
+                      </Chip>
+                    )
+                  })}
+                </ul>
               </div>
               <div>
+                <strong>Altura:</strong>
+                {pokemonAbout.altura}
+              </div>
+              <div>
+                <strong>Peso:</strong>
+                {pokemonAbout.peso}
+              </div>
+
+              <button
+                type="button"
+                data-testid="add-product-button"
+                onClick={() => adicionarNoCrrinho(pokemonAbout)}>
+
                 <div>
-                  <strong>Tipo</strong>:
-              </div>
-                {pokemonAbout.tipo?.map((tipo) => {
-                  return (
-                    <Chip>
-                      <span>
-                        {tipo}
-                      </span>
-                    </Chip>
-                  )
-                })}
-              </div>
-            </div>
-          </CardAbout>
-          {/* 
-        status: Array<Status[]>;
-        tipo: Array<string[]>; */}
-        </Card>
-      </main>
+                  <MdAddShoppingCart size={16} />
+                </div>
+
+                <span>ADICIONAR</span>
+              </button>
+            </ContentInfo>
+          </section>
+
+        </CardAbout>
+      </Card>
+      <Carrinho />
+    </main>
   );
 }

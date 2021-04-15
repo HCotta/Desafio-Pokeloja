@@ -23,7 +23,7 @@ export const getListPokemon = (type: number) => {
       const urlImgPokemon = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${identificadorDoPokemon}.png`;
 
       return {
-        id: identificadorDoPokemon,
+        id: Number(identificadorDoPokemon),
         nome: pokeRes.pokemon.name.toUpperCase(),
         imagem: urlImgPokemon,
         valor: pokeRes.pokemon.name.length * 10,

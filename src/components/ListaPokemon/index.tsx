@@ -25,30 +25,34 @@ export function ListaPokemon() {
   useEffect(() => {
     (async () => {
       try {
-        setPokemon(await getListPokemon(id));
+        const novaLista = filtrarPokemon(await getListPokemon(id));
+        setPokemon(novaLista);
       } catch (error) {
         alert("Ocorreu um erro ao carregar pokemon");
       }
     })()
-  }, [id]);
+  }, [id, filtro, filtrarPokemon]);
 
-  useEffect(() => {
-    setPokemon(filtrarPokemon(pokemon));
-  }, [filtro]);
 
-  
 
   return (
     <Container>
       <Content>
-        {pokemon.map((pokemon) => {
-          return (
-            <CardPokemon
-              key={pokemon.id + '-card-pokemon'}
-              pokemon={pokemon}
-              quantidade={carrinhoPokemonQuantidade[pokemon.id]} />
-          )
-        })}
+        {!pokemon.length ?
+          <h3>Nenhum pokemon encontrado!</h3> :
+          <>
+            {
+              pokemon.map((pokemon) => {
+                return (
+                  <CardPokemon
+                    key={pokemon.id + '-card-pokemon'}
+                    pokemon={pokemon}
+                    quantidade={carrinhoPokemonQuantidade[pokemon.id]} />
+                )
+              })
+            }
+          </>
+        }
       </Content>
     </Container>
   );
