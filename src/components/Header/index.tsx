@@ -13,7 +13,7 @@ export function Header() {
       <Content>
         <Link to="/">
           <img src={logo} alt="PokeLoja" />
-          <h1> POKELOJA1 </h1>
+          <h1> POKELOJA </h1>
         </Link>
         <BuscaPokemon></BuscaPokemon>
         <IconeCart>
