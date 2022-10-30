@@ -1,6 +1,6 @@
 # Site 
 
-[DEMOSTRAÇÃO](https://desafio-pokeloja.vercel.app/)
+[Demo](https://desafio-pokeloja.vercel.app/)
 
 # Getting Started with Create React App
 
